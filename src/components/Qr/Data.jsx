@@ -5,6 +5,15 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { BsQrCode, BsThreeDotsVertical } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { TbGridDots } from "react-icons/tb";
+import {
+  renderToFile,
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 import HeadingComponent from "../Heading/HeadingComponent";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -92,6 +101,29 @@ const QRgenerator = () => {
   let buttonCSS = `w-28 h-9 text-sm rounded-full ${
     generated ? `bg-black` : `btn-disabled`
   } text-white  `;
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: "row",
+      backgroundColor: "#E4E4E4",
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1,
+    },
+  });
+
+  // Create Document Component
+  const MyDocument = () => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          {/* <Text></Text> */}
+          <div ref={ref} />
+        </View>
+      </Page>
+    </Document>
+  );
 
   return (
     <div className="h-full">
@@ -267,7 +299,7 @@ const QRgenerator = () => {
               <div className="flex justify-center my-2 ">
                 {generated ? (
                   <>
-                    <div ref={ref} />
+                    <div ref={ref} id="QRID" />
                   </>
                 ) : (
                   <>
@@ -292,11 +324,28 @@ const QRgenerator = () => {
                 >
                   SVG
                 </button>
-                <button
+                {/* <PDFDownloadLink
+                  document={<MyDocument />}
+                  fileName="qrcode.pdf"
+                >
+                  Download PDF
+                </PDFDownloadLink> */}
+                {/* <button
                   className={buttonCSS}
-                  onClick={() => handleDownload("pdf")}
+                  onClick={async () => {
+                    await renderToFile(
+                      <MyDocument />,
+                      `${__dirname}/my-doc.pdf`
+                    );
+                  }}
                 >
                   PDF
+                </button> */}
+                <button
+                  className={buttonCSS}
+                  onClick={() => handleDownload("jpg")}
+                >
+                  JPG
                 </button>
               </div>
               <ul className="mt-10 flex flex-col w-full ">
