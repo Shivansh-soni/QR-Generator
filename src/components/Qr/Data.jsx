@@ -5,26 +5,30 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { BsQrCode, BsThreeDotsVertical } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { TbGridDots } from "react-icons/tb";
+import HeadingComponent from "../Heading/HeadingComponent";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 const QRCodeStyling = require("qr-code-styling");
 const QRgenerator = () => {
   const [urls, setUrls] = useState("your Website URL");
   const [inputText, setInputText] = useState("https://ekko.network");
   const ref = useRef(null);
-  const [buttonEnabled, setButtonEnabled] = useState(true);
   const [activeButton, setActiveButton] = useState(1);
   const [domain, setDomain] = useState("");
   const [url, setUrl] = useState("");
   const [qrColor, setqrColor] = useState("#000000");
-  const [isChecked, setIsChecked] = useState(false);
+  const [generated, setGenerated] = useState(false);
   const [style, setStyle] = useState({
     color: "",
     dots: "",
     corner: "",
     backgroundColor: "",
   });
+
+  // ------------QR CODE----------
   const qrCode = new QRCodeStyling({
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     // image:
     //   "https://cdn.jsdelivr.net/gh/Tejas2805/EkkoAssets/common/ekko_navbar.svg",
     dotsOptions: {
@@ -40,10 +44,7 @@ const QRgenerator = () => {
       margin: 20,
     },
   });
-  const handleButtonClick = (buttonId) => {
-    setActiveButton(buttonId);
-    setInputText("");
-  };
+  // ---------------useEffect--------------------------------
   useEffect(() => {
     qrCode.append(ref.current);
   }, [qrCode, ref]);
@@ -52,10 +53,6 @@ const QRgenerator = () => {
       data: url,
     });
   }, [qrCode, url]);
-  const [generated, setGenerated] = useState(false);
-  const handleInputChange = (event) => {
-    setInputText(event.target.value);
-  };
   useEffect(() => {
     if (inputText.includes(`${domain}`)) {
       setUrl(inputText);
@@ -63,6 +60,15 @@ const QRgenerator = () => {
       setUrl(`${domain}${inputText}`);
     }
   }, [inputText, domain]);
+
+  // ------------Event HAndlees-------
+  const handleButtonClick = (buttonId) => {
+    setActiveButton(buttonId);
+    setInputText("");
+  };
+  const handleInputChange = (event) => {
+    setInputText(event.target.value);
+  };
   const handleSubmit = async () => {
     if (url.includes(" ")) {
       alert("spacing not allowed");
@@ -76,26 +82,27 @@ const QRgenerator = () => {
     }
     setGenerated(true);
   };
-
   const handleDownload = (fileExt) => {
     qrCode.download({
       extension: fileExt,
     });
   };
 
+  // ------------CSS------------
+  let buttonCSS = `w-28 h-9 text-sm rounded-full ${
+    generated ? `bg-black` : `btn-disabled`
+  } text-white  `;
+
   return (
-    <>
-      {/* <WebsiteNavbar /> */}
-      <p className="text-4xl text-black z-50 font-bold p-10">
-        QRcode Generator
-      </p>
-      <div className="-mt-8">
-        {/* <HeadingComponent heading="QRcode Generator" /> */}
+    <div className="h-full">
+      <Navbar />
+      <div className="flex justify-center lg:justify-start">
+        <HeadingComponent heading="QRcode Generator" />
       </div>
-      <div className="w-full h-screen py-10 lg:px-28  rounded-2xl">
+      <div className="w-full lg:h-screen py-10 lg:px-10  rounded-2xl">
         <div className="w-full h-full  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col shadow-xl">
           {/* ----------------------------------------Left side of page---------------------------------------- */}
-          <div className=" h-full flex-[0.7] flex flex-col justify-between p-10  text-gray-400">
+          <div className=" h-full flex-[0.6] flex flex-col justify-between p-10  text-gray-400">
             <ul className="flex flex-col  gap-5">
               <li
                 className={`
@@ -226,7 +233,7 @@ const QRgenerator = () => {
              </div> */}
           </div>
           {/* ----------------------------------------Center of the page---------------------------------------- */}
-          <div className=" h-full flex-[2] border-x border-gray-300 px-10 pt-10 text-black">
+          <div className=" h-full flex-[2.5] border-x border-gray-300 px-10 pt-10 text-black">
             <h1 className="text-lg text-black">Enter {urls}</h1>
             <input
               value={inputText}
@@ -235,9 +242,9 @@ const QRgenerator = () => {
               className="mt-5 bg-white outline-none input input-bordered border-gray-500 w-full"
             />
             {inputText && (
-              <div className="flex pt-5  lg:pl-96">
+              <div className="flex pt-5 justify-end  ">
                 <button
-                  className={`btn normal-case w-full text-sm  rounded-full  ${
+                  className={`btn normal-case w-4/12 mr-4  text-sm  rounded-full  ${
                     generated
                       ? `bg-white text-black  border-solid border-black hover:bg-white btn-disabled`
                       : `bg-black text-white`
@@ -250,7 +257,7 @@ const QRgenerator = () => {
             )}
           </div>
           {/* ----------------------------------------Right side of page ---------------------------------------- */}
-          <div className=" h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
+          <div className=" flex-[1.2] h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
             <div
               style={{
                 backgroundColor: "white",
@@ -260,48 +267,33 @@ const QRgenerator = () => {
               <div className="flex justify-center my-2 ">
                 {generated ? (
                   <>
-                    <div />
+                    <div ref={ref} />
                   </>
                 ) : (
                   <>
-                    <div ref={ref} />
+                    <BsQrCode className="text-[150px] text-[#d2d2d5]" />
                   </>
-                  // <QRCode
-                  //   fgColor="#d2d2d5"
-                  //   value={`${url}`}
-                  //   size={100}
-                  //   renderAs={"svg"}
-                  //   centerImageSrc={
-                  //     "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                  //   }
-                  //   level={"L"}
-                  // />
                 )}
+                {/* //*--------------------BUTTONS-------------------- */}
               </div>
               <div className="mt-3 ">
                 <p className="text-base mt-4">Download as</p>
               </div>
-              <div className="gap-3 mt-3 flex items-center justify-between">
+              <div className="gap-3  mt-3 flex items-center justify-between">
                 <button
-                  className={`btn w-24  rounded-full 	${
-                    generated ? `bg-black` : `btn-disabled`
-                  } text-white pt-1 `}
+                  className={buttonCSS}
                   onClick={() => handleDownload("png")}
                 >
                   PNG
                 </button>
                 <button
-                  className={`btn w-24 ${
-                    generated ? `bg-black` : `btn-disabled`
-                  }  rounded-full  text-white pt-1 `}
+                  className={buttonCSS}
                   onClick={() => handleDownload("svg")}
                 >
                   SVG
                 </button>
                 <button
-                  className={`btn w-24 rounded-full 	${
-                    generated ? `bg-black` : `btn-disabled`
-                  } text-white  pt-1 `}
+                  className={buttonCSS}
                   onClick={() => handleDownload("pdf")}
                 >
                   PDF
@@ -347,6 +339,7 @@ const QRgenerator = () => {
                     <label className="text-sm"> Add border</label> */}
                   </div>
                 </li>
+                {/* //*-------------COLOR------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -376,7 +369,9 @@ const QRgenerator = () => {
                     <input
                       type="color"
                       value={qrColor}
-                      onChange={(e) => setqrColor(e.target.value)}
+                      onChange={(e) =>
+                        setStyle({ ...style, color: e.target.value })
+                      }
                     />
                     <input
                       type="text"
@@ -387,6 +382,7 @@ const QRgenerator = () => {
                     />
                   </div>
                 </li>
+                {/* //*---------------------Corner Square-------------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -433,8 +429,10 @@ const QRgenerator = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
-    </>
+      <div className="mt-10">
+        <Footer />
+      </div>
+    </div>
   );
 };
 export default QRgenerator;
