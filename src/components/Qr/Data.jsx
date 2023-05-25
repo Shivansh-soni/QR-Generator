@@ -13,7 +13,7 @@ import HeadingComponent from "../Heading/HeadingComponent";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 const QRCodeStyling = require("qr-code-styling");
-const QRgenerator = () => {
+const Data = () => {
   const [urls, setUrls] = useState("your Website URL");
   const [inputText, setInputText] = useState("https://ekko.network");
   const ref = useRef(null);
@@ -22,9 +22,25 @@ const QRgenerator = () => {
   const [url, setUrl] = useState("");
   const [qrColor, setqrColor] = useState("#000000");
   const [generated, setGenerated] = useState(false);
-  const [image, setImage] = useState("");
+  const [open, setOpen] = useState({
+    Dots: "collapse-close",
+    color: "collapse-close",
+    corner: "collapse-close",
+    logo: "collapse-close",
+    cornerDots: "collapse-close",
+  });
+  const name = {
+    Dots: "collapse-close",
+    color: "collapse-close",
+    corner: "collapse-close",
+    logo: "collapse-close",
+    cornerDots: "collapse-close",
+  };
+  const [close, setClose] = useState("");
   const [style, setStyle] = useState({
-    color: "",
+    color: "#000000",
+    cornerColor: "#000000",
+    cornerDotsColor: "#000000",
     dots: "",
     corner: "",
     backgroundColor: "",
@@ -42,10 +58,12 @@ const QRgenerator = () => {
       type: `${style.dots}`,
     },
     cornersSquareOptions: {
+      color: `${style.cornerColor}`,
       type: `${style.corner}`,
     },
 
     cornersDotOptions: {
+      color: `${style.cornerDotsColor}`,
       type: `${style.cornerDots}`,
     },
     // backgroundOptions:{},
@@ -103,20 +121,25 @@ const QRgenerator = () => {
       extension: fileExt,
     });
   };
+  const handleToggle = (name) => {
+    console.log(open);
+  };
 
   // ------------CSS------------
-  let buttonCSS = `w-28 h-9 text-sm rounded-full ${
-    generated ? `bg-black` : `btn-disabled`
-  } text-white  `;
+  let buttonCSS = `w-28 h-9 text-sm rounded-full  ${
+    generated ? `bg-accent` : `btn-disabled`
+  } text-black  `;
+
+  let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black  `;
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-primary">
       <Navbar />
-      <div className="flex justify-center lg:justify-start">
+      <div className="flex justify-center py-10 lg:justify-start">
         <HeadingComponent heading="QRcode Generator" />
       </div>
       <div className="w-full lg:h-screen py-5 lg:px-5  rounded-2xl">
-        <div className="w-full h-full  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col shadow-xl">
+        <div className="w-full h-full  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col drop-shadow-2xl">
           {/* ----------------------------------------Left side of page---------------------------------------- */}
           <div className=" h-full flex-[0.6] flex flex-col justify-between p-10  text-gray-400">
             <ul className="flex flex-col  gap-5">
@@ -243,7 +266,7 @@ const QRgenerator = () => {
                <p className="text-xs text-center">
                  Unlimited QR Codes, analytics, and more with Popl Pro
                </p>
-               <button className="bg-black rounded-full text-white py-3 text-sm w-32">
+               <button className="bg-accent rounded-full text-black py-3 text-sm w-32">
                  Subscribe to Pro
                </button>
              </div> */}
@@ -263,7 +286,7 @@ const QRgenerator = () => {
                   className={`btn normal-case w-4/12 mr-4  text-sm  rounded-full  ${
                     generated
                       ? `bg-white text-black  border-solid border-black hover:bg-white btn-disabled`
-                      : `bg-black text-white`
+                      : `bg-accent text-black border-none`
                   } `}
                   onClick={handleSubmit}
                 >
@@ -333,10 +356,12 @@ const QRgenerator = () => {
                 </button>
               </div>
               <ul className="mt-10 flex flex-col w-full ">
+                {/* -----------------------DOTS-------------------- */}
                 <li
-                  className={`collapse collapse-arrow ${
+                  className={`collapse ${open.Dots} collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
+                  onClick={() => setOpen({ ...name, Dots: "collapse-open" })}
                 >
                   <input type="checkbox" className="peer " />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
@@ -344,20 +369,32 @@ const QRgenerator = () => {
                   </div>
                   <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.dots === "square"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, dots: "square" })}
                     >
                       <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
                     </button>
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.dots === "dots"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, dots: "dots" })}
                     >
                       <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
                       <p className=" pl-1">Dotted</p>
                     </button>
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.dots === "classy"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, dots: "classy" })}
                     >
                       <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
@@ -374,9 +411,10 @@ const QRgenerator = () => {
                 </li>
                 {/* -------------COLOR------------- */}
                 <li
-                  className={`collapse collapse-arrow ${
+                  className={`collapse ${open.color} collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
+                  onClick={() => setOpen({ ...name, color: "collapse-open" })}
                 >
                   <input type="checkbox" className="peer" />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
@@ -400,19 +438,11 @@ const QRgenerator = () => {
                       onClick={(e) => setStyle({ ...style, color: "#159d57" })}
                     ></button>
 
-                    <CgColorPicker
-                      className="text-2xl ml-2"
-                      onClick={() => {
-                        {
-                          document.getElementById("color").click();
-                        }
-                      }}
-                    />
                     <input
-                      type="color"
-                      value={qrColor}
+                      type="text"
+                      value={style.color}
                       id="color"
-                      className="input input-bordered w-28 invisible"
+                      className="input input-sm input-bordered lg:w-24 "
                       onChange={(e) =>
                         setStyle({ ...style, color: e.target.value })
                       }
@@ -421,30 +451,45 @@ const QRgenerator = () => {
                 </li>
                 {/* ---------------------Corner Square-------------------- */}
                 <li
-                  className={`collapse collapse-arrow ${
+                  className={`collapse ${open.corner} collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
+                  onClick={() => {
+                    setOpen({ ...name, corner: "collapse-open" });
+                  }}
                 >
                   <input type="checkbox" className="peer" />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Square
                   </div>
-                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.corner === "square"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, corner: "square" })}
                     >
                       <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
                     </button>
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.corner === "dots"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, corner: "dots" })}
                     >
                       <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
                       <p className=" pl-1">Dotted</p>
                     </button>
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.corner === "extra-rounded"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) =>
                         setStyle({ ...style, corner: "extra-rounded" })
                       }
@@ -452,21 +497,24 @@ const QRgenerator = () => {
                       <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
                       <p className=" pl-1">Extra Rounded</p>
                     </button>
-                    {/* <input
-                      type="checkbox"
-                      className="cursor-pointer text-right"
-                      checked={isChecked}
-                      onChange={(event) => setIsChecked(event.target.checked)}
+                    <input
+                      type="text"
+                      value={style.cornerColor}
+                      id="color"
+                      className="input input-sm input-bordered lg:w-24 "
+                      onChange={(e) =>
+                        setStyle({ ...style, cornerColor: e.target.value })
+                      }
                     />
-                    <label className="text-sm"> Add border</label> */}
                   </div>
                 </li>
 
                 {/* ------------------------LOGO------------------------ */}
                 <li
-                  className={`collapse collapse-arrow ${
+                  className={`collapse ${open.logo} collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
+                  onClick={() => setOpen({ ...name, logo: "collapse-open" })}
                 >
                   <input type="checkbox" className="peer" />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
@@ -490,9 +538,12 @@ const QRgenerator = () => {
                 </li>
                 {/* -----------------------------CORNER DOTS------------------------ */}
                 <li
-                  className={`collapse collapse-arrow ${
+                  className={`collapse ${open.cornerDots} collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
+                  onClick={() =>
+                    setOpen({ ...name, cornerDots: "collapse-open" })
+                  }
                 >
                   <input type="checkbox" className="peer " />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
@@ -500,7 +551,11 @@ const QRgenerator = () => {
                   </div>
                   <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.cornerDots === "square"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) =>
                         setStyle({ ...style, cornerDots: "square" })
                       }
@@ -508,12 +563,25 @@ const QRgenerator = () => {
                       <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
                     </button>
                     <button
-                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      className={`${radioButtonCSS} ${
+                        style.cornerDots === "dot"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
                       onClick={(e) => setStyle({ ...style, cornerDots: "dot" })}
                     >
                       <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
                       <p className=" pl-1">Circled</p>
                     </button>
+                    <input
+                      type="text"
+                      value={style.cornerDotsColor}
+                      id="color"
+                      className="input input-sm input-bordered lg:w-24 "
+                      onChange={(e) =>
+                        setStyle({ ...style, cornerDotsColor: e.target.value })
+                      }
+                    />
                   </div>
                 </li>
               </ul>
@@ -538,4 +606,4 @@ const QRgenerator = () => {
     </div>
   );
 };
-export default QRgenerator;
+export default Data;

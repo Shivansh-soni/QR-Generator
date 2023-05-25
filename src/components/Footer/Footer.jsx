@@ -27,9 +27,9 @@ const Footer = () => {
   //   };
 
   return (
-    <div className="footer flex flex-col items-center">
-      <div className="w-full  footer lg:gap-44">
-        <div className="lg:w-44 w-32 ml-32 lg:pt-36 lg:mr-10">
+    <div className="footer bg-grad  flex flex-col items-center">
+      <div className="w-full footer lg:gap-44">
+        <div className="lg:w-44 mt-5 w-32 ml-32 lg:pt-36 lg:mr-10">
           <img
             width={500}
             height={0}
@@ -38,7 +38,7 @@ const Footer = () => {
             alt="ekko logo"
           />
         </div>
-        <footer className="footer flex bg-base-100  lg:flex-row flex-col-reverse items-center lg:items-start  gap-10 lg:gap-24  p-10  text-base-content">
+        <footer className="footer flex lg:flex-row flex-col-reverse items-center lg:items-start  gap-10 lg:gap-24  p-10  text-base-content">
           <div className="flex flex-col items-center lg:items-start">
             <span className="font-bold text-black text-md">Company</span>
 
