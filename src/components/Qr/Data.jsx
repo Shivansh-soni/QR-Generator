@@ -2,18 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaCompass, FaFacebook, FaYoutube } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BsQrCode, BsThreeDotsVertical } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { TbGridDots } from "react-icons/tb";
-import {
-  renderToFile,
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFDownloadLink,
-} from "@react-pdf/renderer";
+import { CgColorPicker } from "react-icons/cg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import HeadingComponent from "../Heading/HeadingComponent";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -27,19 +22,21 @@ const QRgenerator = () => {
   const [url, setUrl] = useState("");
   const [qrColor, setqrColor] = useState("#000000");
   const [generated, setGenerated] = useState(false);
+  const [image, setImage] = useState("");
   const [style, setStyle] = useState({
     color: "",
     dots: "",
     corner: "",
     backgroundColor: "",
+    image: "",
+    cornerDots: "",
   });
 
   // ------------QR CODE----------
   const qrCode = new QRCodeStyling({
     width: 150,
     height: 150,
-    // image:
-    //   "https://cdn.jsdelivr.net/gh/Tejas2805/EkkoAssets/common/ekko_navbar.svg",
+    image: `${style.image}`,
     dotsOptions: {
       color: `${style.color}`,
       type: `${style.dots}`,
@@ -47,10 +44,16 @@ const QRgenerator = () => {
     cornersSquareOptions: {
       type: `${style.corner}`,
     },
+
+    cornersDotOptions: {
+      type: `${style.cornerDots}`,
+    },
     // backgroundOptions:{},
     imageOptions: {
+      hideBackgroundDots: true,
       crossOrigin: "anonymous",
-      margin: 20,
+      margin: 0,
+      imageSize: 0.5,
     },
   });
   // ---------------useEffect--------------------------------
@@ -78,9 +81,13 @@ const QRgenerator = () => {
   const handleInputChange = (event) => {
     setInputText(event.target.value);
   };
+  const handleImageChange = (event) => {
+    setStyle({ ...style, image: URL.createObjectURL(event.target.files[0]) });
+  };
   const handleSubmit = async () => {
     if (url.includes(" ")) {
-      alert("spacing not allowed");
+      toast.warning("spacing not allowed");
+      setGenerated(false);
     } else {
       if (activeButton !== 1 && activeButton !== 5) {
       } else if (activeButton === 1) {
@@ -88,8 +95,8 @@ const QRgenerator = () => {
       } else if (activeButton === 5) {
         setUrl(`tel:${inputText}`);
       }
+      setGenerated(true);
     }
-    setGenerated(true);
   };
   const handleDownload = (fileExt) => {
     qrCode.download({
@@ -101,29 +108,6 @@ const QRgenerator = () => {
   let buttonCSS = `w-28 h-9 text-sm rounded-full ${
     generated ? `bg-black` : `btn-disabled`
   } text-white  `;
-  const styles = StyleSheet.create({
-    page: {
-      flexDirection: "row",
-      backgroundColor: "#E4E4E4",
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1,
-    },
-  });
-
-  // Create Document Component
-  const MyDocument = () => (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          {/* <Text></Text> */}
-          <div ref={ref} />
-        </View>
-      </Page>
-    </Document>
-  );
 
   return (
     <div className="h-full">
@@ -131,7 +115,7 @@ const QRgenerator = () => {
       <div className="flex justify-center lg:justify-start">
         <HeadingComponent heading="QRcode Generator" />
       </div>
-      <div className="w-full lg:h-screen py-10 lg:px-10  rounded-2xl">
+      <div className="w-full lg:h-screen py-5 lg:px-5  rounded-2xl">
         <div className="w-full h-full  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col shadow-xl">
           {/* ----------------------------------------Left side of page---------------------------------------- */}
           <div className=" h-full flex-[0.6] flex flex-col justify-between p-10  text-gray-400">
@@ -289,7 +273,7 @@ const QRgenerator = () => {
             )}
           </div>
           {/* ----------------------------------------Right side of page ---------------------------------------- */}
-          <div className=" flex-[1.2] h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
+          <div className=" flex-[1.5] h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
             <div
               style={{
                 backgroundColor: "white",
@@ -388,7 +372,7 @@ const QRgenerator = () => {
                     <label className="text-sm"> Add border</label> */}
                   </div>
                 </li>
-                {/* //*-------------COLOR------------- */}
+                {/* -------------COLOR------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -404,34 +388,38 @@ const QRgenerator = () => {
                       onClick={(e) => setStyle({ ...style, color: "#000000" })}
                     ></button>
                     <button
-                      className="btn btn-error btn-xs btn-circle "
-                      onClick={(e) => setStyle({ ...style, color: "#ff6161" })}
+                      className="btn bg-[#f10909] border-none btn-xs btn-circle "
+                      onClick={(e) => setStyle({ ...style, color: "#f10909" })}
                     ></button>
                     <button
-                      className="btn btn-info btn-xs btn-circle"
-                      onClick={(e) => setStyle({ ...style, color: "#68abdf" })}
+                      className="btn bg-[#1271de] border-none btn-xs btn-circle"
+                      onClick={(e) => setStyle({ ...style, color: "#1271de" })}
                     ></button>
                     <button
-                      className="btn btn-warning btn-xs btn-circle"
-                      onClick={(e) => setStyle({ ...style, color: "#bc8a0b" })}
+                      className="btn bg-[#159d57] border-none btn-xs btn-circle"
+                      onClick={(e) => setStyle({ ...style, color: "#159d57" })}
                     ></button>
+
+                    <CgColorPicker
+                      className="text-2xl ml-2"
+                      onClick={() => {
+                        {
+                          document.getElementById("color").click();
+                        }
+                      }}
+                    />
                     <input
                       type="color"
                       value={qrColor}
+                      id="color"
+                      className="input input-bordered w-28 invisible"
                       onChange={(e) =>
                         setStyle({ ...style, color: e.target.value })
                       }
                     />
-                    <input
-                      type="text"
-                      placeholder="#000000"
-                      value={qrColor}
-                      onChange={(e) => setqrColor(e.target.value)}
-                      className="input input-bordered w-28"
-                    />
                   </div>
                 </li>
-                {/* //*---------------------Corner Square-------------------- */}
+                {/* ---------------------Corner Square-------------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -473,6 +461,61 @@ const QRgenerator = () => {
                     <label className="text-sm"> Add border</label> */}
                   </div>
                 </li>
+
+                {/* ------------------------LOGO------------------------ */}
+                <li
+                  className={`collapse collapse-arrow ${
+                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
+                  }`}
+                >
+                  <input type="checkbox" className="peer" />
+                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+                    Logo
+                  </div>
+                  <div className="collapse-content">
+                    <button
+                      className="btn btn-sm normal-case btn-accent w-5/12"
+                      onClick={() => document.getElementById("logo").click()}
+                    >
+                      <AiOutlineCloudUpload className="text-xl mr-2" /> Upload
+                    </button>
+                    <input
+                      type="file"
+                      label="Add logo"
+                      id="logo"
+                      className="file-input file-input-bordered file-input-sm  w-full max-w-xs invisible"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </li>
+                {/* -----------------------------CORNER DOTS------------------------ */}
+                <li
+                  className={`collapse collapse-arrow ${
+                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
+                  }`}
+                >
+                  <input type="checkbox" className="peer " />
+                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+                    Corner Dots
+                  </div>
+                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                    <button
+                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      onClick={(e) =>
+                        setStyle({ ...style, cornerDots: "square" })
+                      }
+                    >
+                      <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
+                    </button>
+                    <button
+                      className="btn btn-sm rounded-full bg-black text-white text-xs"
+                      onClick={(e) => setStyle({ ...style, cornerDots: "dot" })}
+                    >
+                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
+                      <p className=" pl-1">Circled</p>
+                    </button>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -481,6 +524,17 @@ const QRgenerator = () => {
       <div className="mt-10">
         <Footer />
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
