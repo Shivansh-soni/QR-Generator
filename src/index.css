@@ -61,10 +61,8 @@
     font-weight: 600;
 }
 
-
-.bg-grad {
-    background-color: #52a7c1;
-    background-image: linear-gradient(315deg, #52a7c1 0%, #b0f3d7 74%);
-    /* background-color: #7fcec5; */
-    /* background-image: linear-gradient(180deg, #7fcec5 0%, #14557b 74%); */
+.footer-bg {
+    background: linear-gradient(to top,
+            #a2c1c4 50.44%,
+            rgba(255, 255, 255, 0) 100%);
 }

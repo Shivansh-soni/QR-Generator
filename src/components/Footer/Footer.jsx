@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BsInstagram, BsYoutube, BsFacebook, BsLinkedin } from "react-icons/bs";
 
 const Footer = () => {
-  //   const [mail, setMail] = useState < string > "";
+  // const [mail, setMail] = useState("");
 
   //   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
   //     event.preventDefault();
@@ -27,8 +27,8 @@ const Footer = () => {
   //   };
 
   return (
-    <div className="footer bg-grad  flex flex-col items-center">
-      <div className="w-full footer lg:gap-44">
+    <div className="footer footer-bg -mt-20 flex flex-col items-center">
+      <div className="w-full footer lg:gap-44 mt-20">
         <div className="lg:w-44 mt-5 w-32 ml-32 lg:pt-36 lg:mr-10">
           <img
             width={500}

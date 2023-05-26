@@ -22,21 +22,7 @@ const Data = () => {
   const [url, setUrl] = useState("");
   const [qrColor, setqrColor] = useState("#000000");
   const [generated, setGenerated] = useState(false);
-  const [open, setOpen] = useState({
-    Dots: "collapse-close",
-    color: "collapse-close",
-    corner: "collapse-close",
-    logo: "collapse-close",
-    cornerDots: "collapse-close",
-  });
-  const name = {
-    Dots: "collapse-close",
-    color: "collapse-close",
-    corner: "collapse-close",
-    logo: "collapse-close",
-    cornerDots: "collapse-close",
-  };
-  const [close, setClose] = useState("");
+
   const [style, setStyle] = useState({
     color: "#000000",
     cornerColor: "#000000",
@@ -46,6 +32,7 @@ const Data = () => {
     backgroundColor: "",
     image: "",
     cornerDots: "",
+    backgroundDots: false,
   });
 
   // ------------QR CODE----------
@@ -68,7 +55,7 @@ const Data = () => {
     },
     // backgroundOptions:{},
     imageOptions: {
-      hideBackgroundDots: true,
+      hideBackgroundDots: `${style.backgroundDots}`,
       crossOrigin: "anonymous",
       margin: 0,
       imageSize: 0.5,
@@ -121,21 +108,18 @@ const Data = () => {
       extension: fileExt,
     });
   };
-  const handleToggle = (name) => {
-    console.log(open);
-  };
 
   // ------------CSS------------
   let buttonCSS = `w-28 h-9 text-sm rounded-full  ${
     generated ? `bg-accent` : `btn-disabled`
   } text-black  `;
 
-  let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black  `;
+  let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:bg-white hover:drop-shadow-2xl hover:scale-110  `;
 
   return (
     <div className="h-full bg-primary">
       <Navbar />
-      <div className="flex justify-center py-10 lg:justify-start">
+      <div className="flex justify-center mt-20 lg:justify-start ">
         <HeadingComponent heading="QRcode Generator" />
       </div>
       <div className="w-full lg:h-screen py-5 lg:px-5  rounded-2xl">
@@ -358,12 +342,11 @@ const Data = () => {
               <ul className="mt-10 flex flex-col w-full ">
                 {/* -----------------------DOTS-------------------- */}
                 <li
-                  className={`collapse ${open.Dots} collapse-arrow ${
+                  className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
-                  onClick={() => setOpen({ ...name, Dots: "collapse-open" })}
                 >
-                  <input type="checkbox" className="peer " />
+                  <input type="checkbox" id="dots" className="peer " />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Style
                   </div>
@@ -376,7 +359,7 @@ const Data = () => {
                       }`}
                       onClick={(e) => setStyle({ ...style, dots: "square" })}
                     >
-                      <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
+                      <p className=" pl-1">Squared</p>
                     </button>
                     <button
                       className={`${radioButtonCSS} ${
@@ -386,7 +369,7 @@ const Data = () => {
                       }`}
                       onClick={(e) => setStyle({ ...style, dots: "dots" })}
                     >
-                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
+                      {" "}
                       <p className=" pl-1">Dotted</p>
                     </button>
                     <button
@@ -397,7 +380,7 @@ const Data = () => {
                       }`}
                       onClick={(e) => setStyle({ ...style, dots: "classy" })}
                     >
-                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
+                      {" "}
                       <p className=" pl-1">classy</p>
                     </button>
                     {/* <input
@@ -411,14 +394,13 @@ const Data = () => {
                 </li>
                 {/* -------------COLOR------------- */}
                 <li
-                  className={`collapse ${open.color} collapse-arrow ${
+                  className={`collapse  collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
-                  onClick={() => setOpen({ ...name, color: "collapse-open" })}
                 >
-                  <input type="checkbox" className="peer" />
+                  <input type="checkbox" id="color" className="peer" />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
-                    Color
+                    QR Color
                   </div>
                   <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
                     <button
@@ -451,14 +433,11 @@ const Data = () => {
                 </li>
                 {/* ---------------------Corner Square-------------------- */}
                 <li
-                  className={`collapse ${open.corner} collapse-arrow ${
+                  className={`collapse  collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
-                  onClick={() => {
-                    setOpen({ ...name, corner: "collapse-open" });
-                  }}
                 >
-                  <input type="checkbox" className="peer" />
+                  <input type="checkbox" id="corner" className="peer" />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Square
                   </div>
@@ -471,7 +450,7 @@ const Data = () => {
                       }`}
                       onClick={(e) => setStyle({ ...style, corner: "square" })}
                     >
-                      <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
+                      <p className=" pl-1">Squared</p>
                     </button>
                     <button
                       className={`${radioButtonCSS} ${
@@ -481,7 +460,7 @@ const Data = () => {
                       }`}
                       onClick={(e) => setStyle({ ...style, corner: "dots" })}
                     >
-                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
+                      {" "}
                       <p className=" pl-1">Dotted</p>
                     </button>
                     <button
@@ -494,93 +473,116 @@ const Data = () => {
                         setStyle({ ...style, corner: "extra-rounded" })
                       }
                     >
-                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
+                      {" "}
                       <p className=" pl-1">Extra Rounded</p>
                     </button>
-                    <input
-                      type="text"
-                      value={style.cornerColor}
-                      id="color"
-                      className="input input-sm input-bordered lg:w-24 "
-                      onChange={(e) =>
-                        setStyle({ ...style, cornerColor: e.target.value })
-                      }
-                    />
+                    <div className="flex items-center gap-2 ml-2">
+                      <p>Color :</p>
+                      <input
+                        type="text"
+                        value={style.cornerColor}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) =>
+                          setStyle({ ...style, cornerColor: e.target.value })
+                        }
+                      />
+                    </div>
                   </div>
                 </li>
 
-                {/* ------------------------LOGO------------------------ */}
-                <li
-                  className={`collapse ${open.logo} collapse-arrow ${
-                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
-                  }`}
-                  onClick={() => setOpen({ ...name, logo: "collapse-open" })}
-                >
-                  <input type="checkbox" className="peer" />
-                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
-                    Logo
-                  </div>
-                  <div className="collapse-content">
-                    <button
-                      className="btn btn-sm normal-case btn-accent w-5/12"
-                      onClick={() => document.getElementById("logo").click()}
-                    >
-                      <AiOutlineCloudUpload className="text-xl mr-2" /> Upload
-                    </button>
-                    <input
-                      type="file"
-                      label="Add logo"
-                      id="logo"
-                      className="file-input file-input-bordered file-input-sm  w-full max-w-xs invisible"
-                      onChange={handleImageChange}
-                    />
-                  </div>
-                </li>
                 {/* -----------------------------CORNER DOTS------------------------ */}
                 <li
-                  className={`collapse ${open.cornerDots} collapse-arrow ${
+                  className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
-                  onClick={() =>
-                    setOpen({ ...name, cornerDots: "collapse-open" })
-                  }
                 >
-                  <input type="checkbox" className="peer " />
+                  <input type="checkbox" id="cornerDots" className="peer " />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Dots
                   </div>
-                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                  <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                    <div className="flex gap-2">
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.cornerDots === "square"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) =>
+                          setStyle({ ...style, cornerDots: "square" })
+                        }
+                      >
+                        <p className=" pl-1">Squared</p>
+                      </button>
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.cornerDots === "dot"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) =>
+                          setStyle({ ...style, cornerDots: "dot" })
+                        }
+                      >
+                        {" "}
+                        <p className=" pl-1">Circled</p>
+                      </button>
+                    </div>
+                    <div className="flex  items-center gap-2 ml-2">
+                      <p>Color :</p>
+                      <input
+                        type="text"
+                        value={style.cornerDotsColor}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) =>
+                          setStyle({
+                            ...style,
+                            cornerDotsColor: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </li>
+                {/* ------------------------LOGO------------------------ */}
+                <li
+                  className={`collapse  collapse-arrow ${
+                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
+                  }`}
+                >
+                  <input type="checkbox" id="logo" className="peer" />
+                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+                    Logo
+                  </div>
+                  <div className="collapse-content flex items-center gap-2">
                     <button
-                      className={`${radioButtonCSS} ${
-                        style.cornerDots === "square"
-                          ? "bg-white text-black"
-                          : "bg-accent border-none text-black"
-                      }`}
-                      onClick={(e) =>
-                        setStyle({ ...style, cornerDots: "square" })
-                      }
+                      className="btn btn-sm normal-case btn-accent w-5/12"
+                      onClick={() => document.getElementById("logo2").click()}
                     >
-                      <TbGridDots></TbGridDots> <p className=" pl-1">Squared</p>
+                      <AiOutlineCloudUpload className="text-xl mr-2" /> Upload
                     </button>
+
                     <button
-                      className={`${radioButtonCSS} ${
-                        style.cornerDots === "dot"
-                          ? "bg-white text-black"
-                          : "bg-accent border-none text-black"
-                      }`}
-                      onClick={(e) => setStyle({ ...style, cornerDots: "dot" })}
+                      className="btn  btn-sm normal-case btn-accent w-5/12"
+                      onClick={() => {
+                        setStyle({
+                          ...style,
+                          backgroundDots: !style.backgroundDots,
+                        });
+                      }}
                     >
-                      <BsThreeDotsVertical></BsThreeDotsVertical>{" "}
-                      <p className=" pl-1">Circled</p>
+                      {style.backgroundDots === true
+                        ? " Hide Dots"
+                        : "Show dots"}
                     </button>
                     <input
-                      type="text"
-                      value={style.cornerDotsColor}
-                      id="color"
-                      className="input input-sm input-bordered lg:w-24 "
-                      onChange={(e) =>
-                        setStyle({ ...style, cornerDotsColor: e.target.value })
-                      }
+                      type="file"
+                      accept="image/jpeg, image/png"
+                      id="logo2"
+                      className="file-input file-input-bordered file-input-sm   max-w-xs invisible"
+                      onChange={handleImageChange}
                     />
                   </div>
                 </li>
