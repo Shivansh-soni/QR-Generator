@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import { BsInstagram, BsYoutube, BsFacebook, BsLinkedin } from "react-icons/bs";
-
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 const Footer = () => {
-  // const [mail, setMail] = useState("");
+  const [mail, setMail] = useState("");
 
-  //   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     const mailData = {
-  //       email: mail,
-  //     };
-  //     axios
-  //       .post(
-  //         `${process.env.NEXT_PUBLIC_SERVER}/${process.env.NEXT_PUBLIC_SERVER_API_VERSION}/mail`,
-  //         mailData
-  //       )
-  //       .then(function (response) {
-  //         console.log(response);
-  //         setMail("");
-  //         toast.success("Added Successfully");
-  //       })
-  //       .catch(function (error) {
-  //         console.log("ERR", error);
-  //         setMail("");
-  //         toast.error("Something went wrong");
-  //       });
-  //   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const mailData = {
+      email: mail,
+    };
+    axios
+      .post(
+        `${process.env.REACT_APP_SERVER}/${process.env.REACT_APP_API_VERSION}/mail`,
+        mailData
+      )
+      .then(function (response) {
+        console.log(response);
+        setMail("");
+        toast.success("Added Successfully");
+      })
+      .catch(function (error) {
+        console.log("ERR", error);
+        setMail("");
+        toast.error("Something went wrong");
+      });
+  };
+
+  const handleChange = (event) => {
+    setMail({ email: event.target.value });
+  };
 
   return (
     <div className="footer footer-bg -mt-20 flex flex-col items-center">
@@ -38,7 +43,7 @@ const Footer = () => {
             alt="ekko logo"
           />
         </div>
-        <footer className="footer flex lg:flex-row flex-col-reverse items-center lg:items-start  gap-10 lg:gap-24  p-10  text-base-content">
+        <footer className="footer flex lg:flex-row flex-col-reverse items-center lg:items-start  gap-10 lg:gap-24 mt-20   text-base-content">
           <div className="flex flex-col items-center lg:items-start">
             <span className="font-bold text-black text-md">Company</span>
 
@@ -153,7 +158,7 @@ const Footer = () => {
               LinkedIn
             </a>
           </div>
-          {/* <div className="flex flex-col ">
+          <div className="flex flex-col ">
             <span className="font-bold text-black text-md">Newsletter</span>
             <div className="form-control lg:w-80 ">
               <label className="label">
@@ -179,13 +184,13 @@ const Footer = () => {
                 </form>
               </div>
             </div>
-          </div> */}
+          </div>
         </footer>
       </div>
       <p className="text-center -mt-4 mb-4 font-bold text-black">
         Copyright © 2023 YouEkko Communications Private Limited
-      </p>
-      {/* <ToastContainer position="bottom-right" /> */}
+      </p>{" "}
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
