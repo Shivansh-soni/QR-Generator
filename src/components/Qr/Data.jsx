@@ -30,7 +30,8 @@ const Data = () => {
     dots: "",
     corner: "",
     backgroundColor: "",
-    image: "",
+    image:
+      "https://cdn.jsdelivr.net/gh/Tejas2805/EkkoAssets/common/ekko navbar (Custom).png",
     cornerDots: "",
     backgroundDots: false,
   });
