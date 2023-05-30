@@ -3,10 +3,8 @@ import { FaCompass, FaFacebook, FaYoutube } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { BsQrCode, BsThreeDotsVertical } from "react-icons/bs";
+import { BsQrCode } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
-import { TbGridDots } from "react-icons/tb";
-import { CgColorPicker } from "react-icons/cg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeadingComponent from "../Heading/HeadingComponent";
@@ -20,7 +18,6 @@ const Data = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [domain, setDomain] = useState("");
   const [url, setUrl] = useState("");
-  const [qrColor, setqrColor] = useState("#000000");
   const [generated, setGenerated] = useState(false);
   const checkData = {
     dots: false,
@@ -73,6 +70,7 @@ const Data = () => {
       margin: 0,
       imageSize: 0.5,
     },
+    type: "canvas",
   });
   // ---------------useEffect--------------------------------
   useEffect(() => {
@@ -624,27 +622,34 @@ const Data = () => {
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Logo
                   </div>
-                  <div className="collapse-content flex items-center gap-2">
+                  <div className="collapse-content flex items-center gap-2 w-full">
                     <button
-                      className="btn btn-sm normal-case btn-accent w-5/12"
+                      className="btn btn-sm normal-case btn-accent lg:w-5/12"
                       onClick={() => document.getElementById("logo2").click()}
                     >
                       <AiOutlineCloudUpload className="text-xl mr-2" /> Upload
                     </button>
 
-                    <button
-                      className="btn  btn-sm normal-case btn-accent w-5/12"
-                      onClick={() => {
-                        setStyle({
-                          ...style,
-                          backgroundDots: !style.backgroundDots,
-                        });
-                      }}
-                    >
-                      {style.backgroundDots === true
-                        ? " Hide Dots"
-                        : "Show dots"}
-                    </button>
+                    <div class="mb-[0.125rem] w-screen lg:ml-5 pl-[1.5rem]">
+                      <input
+                        class="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        type="checkbox"
+                        value={style.backgroundDots}
+                        onClick={() => {
+                          setStyle({
+                            ...style,
+                            backgroundDots: !style.backgroundDots,
+                          });
+                        }}
+                        id="checkboxDefault"
+                      />
+                      <label
+                        class="inline-block pl-[0.15rem] hover:cursor-pointer"
+                        for="checkboxDefault"
+                      >
+                        Show Dots
+                      </label>
+                    </div>
                     <input
                       type="file"
                       accept="image/jpeg, image/png"

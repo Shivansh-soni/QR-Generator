@@ -27,17 +27,11 @@ const Footer = () => {
       });
   };
 
-  const handleChange = (event) => {
-    setMail({ email: event.target.value });
-  };
-
   return (
     <div className="footer footer-bg -mt-20 flex flex-col items-center">
-      <div className="w-full footer lg:gap-44 mt-20">
-        <div className="lg:w-44 mt-5 w-32 ml-32 lg:pt-36 lg:mr-10">
+      <div className="w-full footer lg:gap-10 mt-20">
+        <div className="lg:w-40 mt-5 w-32 ml-32 lg:pt-36 lg:mr-10">
           <img
-            width={500}
-            height={0}
             role="button"
             src="https://cdn.jsdelivr.net/gh/Tejas2805/EkkoAssets/common/ekko_navbar.svg"
             alt="ekko logo"
@@ -118,7 +112,7 @@ const Footer = () => {
             >
               <BsInstagram className="text-lg" />
             </a>
-            <a href="" className="link link-hover font-semibold">
+            <a href="/#" className="link link-hover font-semibold">
               <BsYoutube className="text-lg" />
             </a>
             <a
