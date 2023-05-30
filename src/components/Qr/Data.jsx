@@ -15,13 +15,16 @@ const Data = () => {
   const [urls, setUrls] = useState("your Website URL");
   const [inputText, setInputText] = useState("https://ekko.network");
   const ref = useRef(null);
+  const ref2 = useRef(null);
   const [activeButton, setActiveButton] = useState(1);
   const [domain, setDomain] = useState("");
   const [url, setUrl] = useState("");
+  const [size, setSize] = useState("350");
   const [generated, setGenerated] = useState(false);
   const checkData = {
     dots: false,
     color: false,
+    backgroundColor: false,
     cornerSquare: false,
     cornerDots: false,
     logo: false,
@@ -29,6 +32,7 @@ const Data = () => {
   const [checkbox, setCheckbox] = useState({
     dots: false,
     color: false,
+    backgroundColor: false,
     cornerSquare: false,
     cornerDots: false,
     logo: false,
@@ -43,12 +47,13 @@ const Data = () => {
     image: "",
     cornerDots: "",
     backgroundDots: false,
+    width: "150",
   });
 
   // ------------QR CODE----------
   const qrCode = new QRCodeStyling({
-    width: 150,
-    height: 150,
+    width: `${style.width}`,
+    height: `${style.width}`,
     image: `${style.image}`,
     dotsOptions: {
       color: `${style.color}`,
@@ -63,7 +68,9 @@ const Data = () => {
       color: `${style.cornerDotsColor}`,
       type: `${style.cornerDots}`,
     },
-    // backgroundOptions:{},
+    backgroundOptions: {
+      color: `${style.backgroundColor}`,
+    },
     imageOptions: {
       hideBackgroundDots: `${style.backgroundDots}`,
       crossOrigin: "anonymous",
@@ -75,6 +82,7 @@ const Data = () => {
   // ---------------useEffect--------------------------------
   useEffect(() => {
     qrCode.append(ref.current);
+    qrCode.append(ref2.current);
   }, [qrCode, ref]);
   useEffect(() => {
     qrCode.update({
@@ -115,6 +123,7 @@ const Data = () => {
     }
   };
   const handleDownload = (fileExt) => {
+    // await setStyle({ ...style, width: { size }, height: { size } });
     qrCode.download({
       extension: fileExt,
     });
@@ -128,7 +137,7 @@ const Data = () => {
   let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:bg-white hover:drop-shadow-2xl hover:scale-110  `;
 
   return (
-    <div className="h-full bg-primary">
+    <div className="h-full pb-10 bg-primary">
       <Navbar />
       <div className="flex justify-center mt-20 lg:justify-start ">
         <HeadingComponent heading="QRcode Generator" />
@@ -281,7 +290,7 @@ const Data = () => {
                   className={`btn normal-case w-4/12 mr-4  text-sm  rounded-full  ${
                     generated
                       ? `bg-white text-black  border-solid border-black hover:bg-white btn-disabled`
-                      : `bg-accent text-black border-none`
+                      : `bg-accent text-black hover:bg-accent hover:scale-110  border-none`
                   } `}
                   onClick={handleSubmit}
                 >
@@ -294,14 +303,18 @@ const Data = () => {
           <div className=" flex-[1.5] h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
             <div
               style={{
-                backgroundColor: "white",
                 color: "black",
               }}
             >
               <div className="flex justify-center my-2 ">
                 {generated ? (
                   <>
-                    <div ref={ref} id="QRID" />
+                    <div className="w-4/12">
+                      <div ref={ref} id="QRID" />
+                    </div>
+                    {/* <>
+                      <div ref={ref2} className="hidden" id="QRID" />
+                    </> */}
                   </>
                 ) : (
                   <>
@@ -350,6 +363,7 @@ const Data = () => {
                   JPG
                 </button>
               </div>
+              {/* --------------ACCORDIAN---------------- */}
               <ul className="mt-10 flex flex-col w-full ">
                 {/* -----------------------DOTS-------------------- */}
                 <li
@@ -462,6 +476,55 @@ const Data = () => {
                         setStyle({ ...style, color: e.target.value })
                       }
                     />
+                  </div>
+                </li>
+                {/* -----------------------BG COLOR-------------------- */}
+                <li
+                  className={`collapse collapse-arrow ${
+                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkbox.backgroundColor}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        backgroundColor: !checkbox.backgroundColor,
+                      })
+                    }
+                    id="dots"
+                    className="peer "
+                  />
+                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+                    Background Color
+                  </div>
+                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                    <button
+                      className={`${radioButtonCSS} ${
+                        style.dots === "square"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
+                      onClick={(e) =>
+                        setStyle({ ...style, backgroundColor: "#ffffff" })
+                      }
+                    >
+                      <p className=" pl-1">White</p>
+                    </button>
+                    <button
+                      className={`${radioButtonCSS} ${
+                        style.dots === "dots"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
+                      onClick={(e) =>
+                        setStyle({ ...style, backgroundColor: "transparent" })
+                      }
+                    >
+                      {" "}
+                      <p className=" pl-1">Transparent</p>
+                    </button>
                   </div>
                 </li>
                 {/* ---------------------Corner Square-------------------- */}
