@@ -69,6 +69,7 @@
 
 body::-webkit-scrollbar {
     display: none;
+    width: 2px;
 }
 
 html {
