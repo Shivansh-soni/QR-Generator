@@ -22,7 +22,20 @@ const Data = () => {
   const [url, setUrl] = useState("");
   const [qrColor, setqrColor] = useState("#000000");
   const [generated, setGenerated] = useState(false);
-
+  const checkData = {
+    dots: false,
+    color: false,
+    cornerSquare: false,
+    cornerDots: false,
+    logo: false,
+  };
+  const [checkbox, setCheckbox] = useState({
+    dots: false,
+    color: false,
+    cornerSquare: false,
+    cornerDots: false,
+    logo: false,
+  });
   const [style, setStyle] = useState({
     color: "#000000",
     cornerColor: "#000000",
@@ -346,7 +359,18 @@ const Data = () => {
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
                 >
-                  <input type="checkbox" id="dots" className="peer " />
+                  <input
+                    type="checkbox"
+                    checked={checkbox.dots}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        dots: !checkbox.dots,
+                      })
+                    }
+                    id="dots"
+                    className="peer "
+                  />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Style
                   </div>
@@ -398,7 +422,18 @@ const Data = () => {
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
                 >
-                  <input type="checkbox" id="color" className="peer" />
+                  <input
+                    type="checkbox"
+                    checked={checkbox.color}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        color: !checkbox.color,
+                      })
+                    }
+                    id="color"
+                    className="peer"
+                  />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     QR Color
                   </div>
@@ -437,7 +472,18 @@ const Data = () => {
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
                 >
-                  <input type="checkbox" id="corner" className="peer" />
+                  <input
+                    type="checkbox"
+                    checked={checkbox.cornerSquare}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        cornerSquare: !checkbox.cornerSquare,
+                      })
+                    }
+                    id="corner"
+                    className="peer"
+                  />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Square
                   </div>
@@ -497,7 +543,18 @@ const Data = () => {
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
                 >
-                  <input type="checkbox" id="cornerDots" className="peer " />
+                  <input
+                    type="checkbox"
+                    checked={checkbox.cornerDots}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        cornerDots: !checkbox.cornerDots,
+                      })
+                    }
+                    id="cornerDots"
+                    className="peer "
+                  />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Dots
                   </div>
@@ -552,7 +609,18 @@ const Data = () => {
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
                   }`}
                 >
-                  <input type="checkbox" id="logo" className="peer" />
+                  <input
+                    type="checkbox"
+                    checked={checkbox.logo}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        logo: !checkbox.logo,
+                      })
+                    }
+                    id="logo"
+                    className="peer"
+                  />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Logo
                   </div>
