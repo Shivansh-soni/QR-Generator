@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FaCompass, FaFacebook, FaYoutube } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { BiSearchAlt2 } from "react-icons/bi";
@@ -6,10 +6,9 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BsQrCode } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
+import { toJpeg, toPng, toSvg } from "html-to-image";
+import { saveAs } from "file-saver";
 import "react-toastify/dist/ReactToastify.css";
-import HeadingComponent from "../Heading/HeadingComponent";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
 const QRCodeStyling = require("qr-code-styling");
 const Data = () => {
   const [urls, setUrls] = useState("your Website URL");
@@ -19,8 +18,10 @@ const Data = () => {
   const [activeButton, setActiveButton] = useState(1);
   const [domain, setDomain] = useState("");
   const [url, setUrl] = useState("");
-  const [size, setSize] = useState("350");
+  const [border, setBorder] = useState(false);
   const [generated, setGenerated] = useState(false);
+  const [frame, setFrame] = useState(false);
+  const [frameColor, setFrameColor] = useState("#000000");
   const checkData = {
     dots: false,
     color: false,
@@ -41,16 +42,16 @@ const Data = () => {
     color: "#000000",
     cornerColor: "#000000",
     cornerDotsColor: "#000000",
-    dots: "",
-    corner: "",
-    backgroundColor: "",
+    dots: "classy",
+    corner: "extra-rounded",
+    backgroundColor: "#ffffff",
     image: "",
     cornerDots: "",
     backgroundDots: false,
-    width: "150",
+    width: "140",
   });
 
-  // ------------QR CODE----------
+  // ------------QR CODE-------------
   const qrCode = new QRCodeStyling({
     width: `${style.width}`,
     height: `${style.width}`,
@@ -77,15 +78,52 @@ const Data = () => {
       margin: 0,
       imageSize: 0.5,
     },
+    qrOptions: {
+      errorCorrectionLevel: "H",
+    },
     type: "canvas",
   });
-  // ---------------useEffect--------------------------------
+  const qrCode2 = new QRCodeStyling({
+    width: 500,
+    height: 500,
+    image: `${style.image}`,
+    dotsOptions: {
+      color: `${style.color}`,
+      type: `${style.dots}`,
+    },
+    cornersSquareOptions: {
+      color: `${style.cornerColor}`,
+      type: `${style.corner}`,
+    },
+
+    cornersDotOptions: {
+      color: `${style.cornerDotsColor}`,
+      type: `${style.cornerDots}`,
+    },
+    backgroundOptions: {
+      color: `${style.backgroundColor}`,
+    },
+    imageOptions: {
+      hideBackgroundDots: `${style.backgroundDots}`,
+      crossOrigin: "anonymous",
+      margin: 0,
+      imageSize: 0.5,
+    },
+    qrOptions: {
+      errorCorrectionLevel: "H",
+    },
+    type: "canvas",
+  });
+  // ------------USE EFFECTS--------
   useEffect(() => {
     qrCode.append(ref.current);
-    qrCode.append(ref2.current);
+    qrCode2.append(ref2.current);
   }, [qrCode, ref]);
   useEffect(() => {
     qrCode.update({
+      data: url,
+    });
+    qrCode2.update({
       data: url,
     });
   }, [qrCode, url]);
@@ -97,7 +135,7 @@ const Data = () => {
     }
   }, [inputText, domain]);
 
-  // ------------Event HAndlees-------
+  // -----------EVENT HANDLERS-------
   const handleButtonClick = (buttonId) => {
     setActiveButton(buttonId);
     setInputText("");
@@ -122,14 +160,67 @@ const Data = () => {
       setGenerated(true);
     }
   };
-  const handleDownload = (fileExt) => {
-    // await setStyle({ ...style, width: { size }, height: { size } });
-    qrCode.download({
-      extension: fileExt,
+  const handleDownload = async (type) => {
+    // qrCode2.getRawData("jpeg").then((blob) => saveAs(blob, "hello world.jpeg"));
+
+    const element = document.getElementById("main-qr");
+    // element.innerHTML = "";
+    // qrCode2.append(element);
+    switch (type) {
+      case "jpeg": {
+        toJpeg(element).then((dataUrl) => {
+          const link = document.createElement("a");
+          link.href = dataUrl;
+          link.download = "QRCODE.jpeg";
+          link.click();
+        });
+        break;
+      }
+      case "png": {
+        toPng(element).then((dataUrl) => {
+          const link = document.createElement("a");
+          link.href = dataUrl;
+          link.download = "QRCODE.png";
+          link.click();
+        });
+        break;
+      }
+      case "svg": {
+        if (style.backgroundColor === "transparent") {
+          toast.error("Trasnparent Bg is not supported in SVG");
+          break;
+        } else {
+          toSvg(element).then((dataUrl) => {
+            const link = document.createElement("a");
+            link.href = dataUrl;
+            link.download = "QRCODE.svg";
+            link.click();
+          });
+        }
+        break;
+      }
+      default: {
+        toPng(element).then((dataUrl) => {
+          const link = document.createElement("a");
+          link.href = dataUrl;
+          link.download = "QRCODE.png";
+          link.click();
+        });
+      }
+    }
+  };
+  const handleJpeg = () => {
+    toJpeg(document.getElementById("qr-code"), {
+      cacheBust: true,
+      includeQueryParams: true,
+    }).then((dataUrl) => {
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "ekko-zoom-background.jpeg";
+      link.click();
     });
   };
-
-  // ------------CSS------------
+  // --------------CSS---------------
   let buttonCSS = `w-28 h-9 text-sm rounded-full  ${
     generated ? `bg-accent` : `btn-disabled`
   } text-black  `;
@@ -137,14 +228,10 @@ const Data = () => {
   let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:bg-white hover:drop-shadow-2xl hover:scale-110  `;
 
   return (
-    <div className="h-full pb-10 bg-primary">
-      <Navbar />
-      <div className="flex justify-center mt-20 lg:justify-start ">
-        <HeadingComponent heading="QRcode Generator" />
-      </div>
-      <div className="w-full lg:h-screen py-5 lg:px-5  rounded-2xl">
-        <div className="w-full h-full  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col drop-shadow-2xl">
-          {/* ----------------------------------------Left side of page---------------------------------------- */}
+    <div className="h-full  ">
+      <div className="w-full h-screen  lg:px-5  rounded-2xl">
+        <div className="w-full mt-20  h-[900px]  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col drop-shadow-2xl">
+          {/* ----------------------------------------LEFT SIDE OF THE PAGE--------------------------------------- */}
           <div className=" h-full flex-[0.6] flex flex-col justify-between p-10  text-gray-400">
             <ul className="flex flex-col  gap-5">
               <li
@@ -275,7 +362,9 @@ const Data = () => {
                </button>
              </div> */}
           </div>
-          {/* ----------------------------------------Center of the page---------------------------------------- */}
+          {/* ----------------------------------------LEFT SIDE ENDED------------------------------------------- */}
+          {/* ---------------------------------------------------------------------------------------------------*/}
+          {/* ----------------------------------------CENTER OF PAGE---------------------------------------- */}
           <div className=" h-full flex-[2.5] border-x border-gray-300 px-10 pt-10 text-black">
             <h1 className="text-lg text-black">Enter {urls}</h1>
             <input
@@ -299,7 +388,9 @@ const Data = () => {
               </div>
             )}
           </div>
-          {/* ----------------------------------------Right side of page ---------------------------------------- */}
+          {/* ----------------------------------------CENTER SIDE ENDED----------------------------------------- */}
+          {/* --------------------------------------------------------------------------------------------------*/}
+          {/* ---------------------------------------RIGHT SIDE OF PAGE --------------------------------------- */}
           <div className=" flex-[1.5] h-full lg:w-4/12 flex-col  p-5 items-center rounded-3xl">
             <div
               style={{
@@ -308,14 +399,31 @@ const Data = () => {
             >
               <div className="flex justify-center my-2 ">
                 {generated ? (
-                  <>
-                    <div className="w-4/12">
-                      <div ref={ref} id="QRID" />
+                  <div
+                    className={`
+          
+        ${border ? "border-[8px] rounded-xl border-black  " : ""}
+          flex justify-center  rounded-2xl  relative -z-50 p-4 -pl-5  `}
+                    style={
+                      frame
+                        ? { backgroundColor: `${frameColor}` }
+                        : { backgroundColor: `${style.backgroundColor}` }
+                    }
+                  >
+                    <div className="flex flex-col gap-2 items-center justify-end rounded-xl">
+                      <div ref={ref} className={`rounded-xl `}></div>
+                      {frame && (
+                        <>
+                          <p
+                            className="text-[20px] font-bold text-center   "
+                            style={{ color: `${style.backgroundColor}` }}
+                          >
+                            SCAN ME
+                          </p>
+                        </>
+                      )}
                     </div>
-                    {/* <>
-                      <div ref={ref2} className="hidden" id="QRID" />
-                    </> */}
-                  </>
+                  </div>
                 ) : (
                   <>
                     <BsQrCode className="text-[150px] text-[#d2d2d5]" />
@@ -358,14 +466,14 @@ const Data = () => {
                 </button> */}
                 <button
                   className={buttonCSS}
-                  onClick={() => handleDownload("jpg")}
+                  onClick={() => handleDownload("jpeg")}
                 >
                   JPG
                 </button>
               </div>
-              {/* --------------ACCORDIAN---------------- */}
+              {/* --------------------------------------ACCORDIONS------------------------------------------------------- */}
               <ul className="mt-10 flex flex-col w-full ">
-                {/* -----------------------DOTS-------------------- */}
+                {/* -----------------------DOTS-------------------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -386,7 +494,7 @@ const Data = () => {
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Style
                   </div>
-                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                  <div className="flex flex-wrap items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
                     <button
                       className={`${radioButtonCSS} ${
                         style.dots === "square"
@@ -419,16 +527,25 @@ const Data = () => {
                       {" "}
                       <p className=" pl-1">classy</p>
                     </button>
-                    {/* <input
-                      type="checkbox"
-                      className="cursor-pointer text-right"
-                      checked={isChecked}
-                      onChange={(event) => setIsChecked(event.target.checked)}
-                    />
-                    <label className="text-sm"> Add border</label> */}
+                    <div class="ml-10 mt-2">
+                      <input
+                        class="relative float-left -ml-[1.5rem]  mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                        type="checkbox"
+                        checked={border}
+                        onClick={() => {
+                          setBorder(!border);
+                        }}
+                      />
+                      <label
+                        class="inline-block  hover:cursor-pointer"
+                        for="checkboxDefault"
+                      >
+                        Add Border
+                      </label>
+                    </div>
                   </div>
                 </li>
-                {/* -------------COLOR------------- */}
+                {/* -----------------------COLOR------------------------- */}
                 <li
                   className={`collapse  collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -447,38 +564,80 @@ const Data = () => {
                     className="peer"
                   />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
-                    QR Color
+                    Color
                   </div>
-                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
-                    <button
-                      className="btn btn-xs btn-circle "
-                      onClick={(e) => setStyle({ ...style, color: "#000000" })}
-                    ></button>
-                    <button
-                      className="btn bg-[#f10909] border-none btn-xs btn-circle "
-                      onClick={(e) => setStyle({ ...style, color: "#f10909" })}
-                    ></button>
-                    <button
-                      className="btn bg-[#1271de] border-none btn-xs btn-circle"
-                      onClick={(e) => setStyle({ ...style, color: "#1271de" })}
-                    ></button>
-                    <button
-                      className="btn bg-[#159d57] border-none btn-xs btn-circle"
-                      onClick={(e) => setStyle({ ...style, color: "#159d57" })}
-                    ></button>
+                  <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                    <div className="flex items-center gap-4 justify-start">
+                      <button
+                        className="btn btn-xs btn-circle "
+                        onClick={(e) =>
+                          setStyle({ ...style, color: "#000000" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#f10909] border-none btn-xs btn-circle "
+                        onClick={(e) =>
+                          setStyle({ ...style, color: "#f10909" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#1271de] border-none btn-xs btn-circle"
+                        onClick={(e) =>
+                          setStyle({ ...style, color: "#1271de" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#159d57] border-none btn-xs btn-circle"
+                        onClick={(e) =>
+                          setStyle({ ...style, color: "#159d57" })
+                        }
+                      ></button>
 
-                    <input
-                      type="text"
-                      value={style.color}
-                      id="color"
-                      className="input input-sm input-bordered lg:w-24 "
-                      onChange={(e) =>
-                        setStyle({ ...style, color: e.target.value })
-                      }
-                    />
+                      <input
+                        type="text"
+                        value={style.color}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) =>
+                          setStyle({ ...style, color: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="flex -ml-2 items-center gap-2 bg-white text-black-content ">
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.backgroundColor === "#ffffff"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) => {
+                          setStyle({ ...style, backgroundColor: "#ffffff" });
+                        }}
+                      >
+                        <p className=" pl-1">White</p>
+                      </button>
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.backgroundColor === "transparent"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) => {
+                          setStyle({
+                            ...style,
+                            backgroundColor: "transparent",
+                          });
+
+                          setFrame(false);
+                        }}
+                      >
+                        {" "}
+                        <p className=" pl-1">Transparent</p>
+                      </button>
+                    </div>
                   </div>
                 </li>
-                {/* -----------------------BG COLOR-------------------- */}
+                {/* -----------------------FRAMES--------------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -497,37 +656,33 @@ const Data = () => {
                     className="peer "
                   />
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
-                    Background Color
+                    Frames
                   </div>
-                  <div className="flex items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
                     <button
                       className={`${radioButtonCSS} ${
-                        style.dots === "square"
+                        style.corner === "square"
                           ? "bg-white text-black"
                           : "bg-accent border-none text-black"
                       }`}
-                      onClick={(e) =>
-                        setStyle({ ...style, backgroundColor: "#ffffff" })
-                      }
+                      onClick={(e) => setFrame(!frame)}
                     >
-                      <p className=" pl-1">White</p>
+                      <p className=" pl-1">Bottom Frame</p>
                     </button>
-                    <button
-                      className={`${radioButtonCSS} ${
-                        style.dots === "dots"
-                          ? "bg-white text-black"
-                          : "bg-accent border-none text-black"
-                      }`}
-                      onClick={(e) =>
-                        setStyle({ ...style, backgroundColor: "transparent" })
-                      }
-                    >
-                      {" "}
-                      <p className=" pl-1">Transparent</p>
-                    </button>
+
+                    <div className="flex items-center gap-2 ml-2">
+                      <p>Frame Color :</p>
+                      <input
+                        type="text"
+                        value={frameColor}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) => setFrameColor(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </li>
-                {/* ---------------------Corner Square-------------------- */}
+                {/* -----------------------CORNER SQUARE----------------- */}
                 <li
                   className={`collapse  collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -598,7 +753,7 @@ const Data = () => {
                   </div>
                 </li>
 
-                {/* -----------------------------CORNER DOTS------------------------ */}
+                {/* -----------------------CORNER DOTS------------------- */}
                 <li
                   className={`collapse collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -619,7 +774,7 @@ const Data = () => {
                   <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
                     Corner Dots
                   </div>
-                  <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                  <div className="flex  items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
                     <div className="flex gap-2">
                       <button
                         className={`${radioButtonCSS} ${
@@ -664,7 +819,7 @@ const Data = () => {
                     </div>
                   </div>
                 </li>
-                {/* ------------------------LOGO------------------------ */}
+                {/* -------------------------LOGO------------------------ */}
                 <li
                   className={`collapse  collapse-arrow ${
                     generated ? ` ` : `collapse-close text-[#d2d2d5]`
@@ -725,22 +880,35 @@ const Data = () => {
               </ul>
             </div>
           </div>
+          {/* ----------------------------------------Right SIDE ENDED------------------------------------------- */}
         </div>
       </div>
-      <div className="mt-10">
-        <Footer />
+      <div
+        className={`
+          
+        ${border ? "border-[8px] rounded-xl border-black  " : ""}
+         w-[550px] flex justify-center  rounded-2xl  relative -z-50 p-5 -pl-5  `}
+        id="main-qr"
+        style={
+          frame
+            ? { backgroundColor: `${frameColor}` }
+            : { backgroundColor: `${style.backgroundColor}` }
+        }
+      >
+        <div className="flex flex-col gap-2 items-center justify-end ">
+          <div ref={ref2} className={`rounded-xl `}></div>
+          {frame && (
+            <>
+              <p
+                className="text-[80px] font-bold text-center  -mb-5 "
+                style={{ color: `${style.backgroundColor}` }}
+              >
+                SCAN ME
+              </p>
+            </>
+          )}
+        </div>
       </div>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </div>
   );
 };
