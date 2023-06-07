@@ -22,6 +22,9 @@ const Data = () => {
   const [generated, setGenerated] = useState(false);
   const [frame, setFrame] = useState(false);
   const [frameColor, setFrameColor] = useState("#000000");
+  const [frameStyle, setFrameStyle] = useState("bottom");
+  const [textColor, setTextColor] = useState("#ffffff");
+
   const checkData = {
     dots: false,
     color: false,
@@ -29,6 +32,7 @@ const Data = () => {
     cornerSquare: false,
     cornerDots: false,
     logo: false,
+    frame: false,
   };
   const [checkbox, setCheckbox] = useState({
     dots: false,
@@ -37,6 +41,7 @@ const Data = () => {
     cornerSquare: false,
     cornerDots: false,
     logo: false,
+    frame: false,
   });
   const [style, setStyle] = useState({
     color: "#000000",
@@ -209,17 +214,7 @@ const Data = () => {
       }
     }
   };
-  const handleJpeg = () => {
-    toJpeg(document.getElementById("qr-code"), {
-      cacheBust: true,
-      includeQueryParams: true,
-    }).then((dataUrl) => {
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = "ekko-zoom-background.jpeg";
-      link.click();
-    });
-  };
+
   // --------------CSS---------------
   let buttonCSS = `w-28 h-9 text-sm rounded-full  ${
     generated ? `bg-accent` : `btn-disabled`
@@ -403,20 +398,26 @@ const Data = () => {
                     className={`
           
         ${border ? "border-[8px] rounded-xl border-black  " : ""}
-          flex justify-center  rounded-2xl  relative -z-50 p-4 -pl-5  `}
+          flex justify-center  rounded-2xl  relative -z-50 p-2 -pl-5  `}
                     style={
                       frame
                         ? { backgroundColor: `${frameColor}` }
                         : { backgroundColor: `${style.backgroundColor}` }
                     }
                   >
-                    <div className="flex flex-col gap-2 items-center justify-end rounded-xl">
-                      <div ref={ref} className={`rounded-xl `}></div>
+                    <div
+                      className={`flex ${
+                        frameStyle === "bottom"
+                          ? "flex-col"
+                          : "flex-col-reverse"
+                      } gap-2 items-center justify-end rounded-xl`}
+                    >
+                      <div ref={ref}></div>
                       {frame && (
                         <>
                           <p
                             className="text-[20px] font-bold text-center   "
-                            style={{ color: `${style.backgroundColor}` }}
+                            style={{ color: `${textColor}` }}
                           >
                             SCAN ME
                           </p>
@@ -627,8 +628,99 @@ const Data = () => {
                             ...style,
                             backgroundColor: "transparent",
                           });
+                        }}
+                      >
+                        {" "}
+                        <p className=" pl-1">Transparent</p>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+                {/* -----------------------BACKGROUND COLOR------------------------- */}
+                <li
+                  className={`collapse  collapse-arrow ${
+                    generated ? ` ` : `collapse-close text-[#d2d2d5]`
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkbox.backgroundColor}
+                    onChange={() =>
+                      setCheckbox({
+                        ...checkData,
+                        backgroundColor: !checkbox.backgroundColor,
+                      })
+                    }
+                    id="color"
+                    className="peer"
+                  />
+                  <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+                    Background Color
+                  </div>
+                  <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+                    <div className="flex items-center gap-4 justify-start">
+                      <button
+                        className="btn btn-xs btn-circle "
+                        onClick={(e) =>
+                          setStyle({ ...style, backgroundColor: "#000000" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#f10909] border-none btn-xs btn-circle "
+                        onClick={(e) =>
+                          setStyle({ ...style, backgroundColor: "#f10909" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#1271de] border-none btn-xs btn-circle"
+                        onClick={(e) =>
+                          setStyle({ ...style, backgroundColor: "#1271de" })
+                        }
+                      ></button>
+                      <button
+                        className="btn bg-[#159d57] border-none btn-xs btn-circle"
+                        onClick={(e) =>
+                          setStyle({ ...style, backgroundColor: "#159d57" })
+                        }
+                      ></button>
 
-                          setFrame(false);
+                      <input
+                        type="text"
+                        value={style.backgroundColor}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) =>
+                          setStyle({
+                            ...style,
+                            backgroundColor: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="flex -ml-2 items-center gap-2 bg-white text-black-content ">
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.backgroundColor === "#ffffff"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) => {
+                          setStyle({ ...style, backgroundColor: "#ffffff" });
+                        }}
+                      >
+                        <p className=" pl-1">White</p>
+                      </button>
+                      <button
+                        className={`${radioButtonCSS} ${
+                          style.backgroundColor === "transparent"
+                            ? "bg-white text-black"
+                            : "bg-accent border-none text-black"
+                        }`}
+                        onClick={(e) => {
+                          setStyle({
+                            ...style,
+                            backgroundColor: "transparent",
+                          });
                         }}
                       >
                         {" "}
@@ -645,11 +737,11 @@ const Data = () => {
                 >
                   <input
                     type="checkbox"
-                    checked={checkbox.backgroundColor}
+                    checked={checkbox.frame}
                     onChange={() =>
                       setCheckbox({
                         ...checkData,
-                        backgroundColor: !checkbox.backgroundColor,
+                        frame: !checkbox.frame,
                       })
                     }
                     id="dots"
@@ -661,13 +753,37 @@ const Data = () => {
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
                     <button
                       className={`${radioButtonCSS} ${
-                        style.corner === "square"
+                        frameStyle === "bottom"
                           ? "bg-white text-black"
                           : "bg-accent border-none text-black"
                       }`}
-                      onClick={(e) => setFrame(!frame)}
+                      onClick={(e) => {
+                        if (frame) {
+                          setFrameStyle("bottom");
+                        } else {
+                          setFrame(!frame);
+                          setFrameStyle("bottom");
+                        }
+                      }}
                     >
                       <p className=" pl-1">Bottom Frame</p>
+                    </button>
+                    <button
+                      className={`${radioButtonCSS} ${
+                        frameStyle === "top"
+                          ? "bg-white text-black"
+                          : "bg-accent border-none text-black"
+                      }`}
+                      onClick={(e) => {
+                        if (frame) {
+                          setFrameStyle("top");
+                        } else {
+                          setFrame(!frame);
+                          setFrameStyle("top");
+                        }
+                      }}
+                    >
+                      <p className=" pl-1">Top Frame</p>
                     </button>
 
                     <div className="flex items-center gap-2 ml-2">
@@ -678,6 +794,16 @@ const Data = () => {
                         id="color"
                         className="input input-sm input-bordered lg:w-24 "
                         onChange={(e) => setFrameColor(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 ml-2">
+                      <p>Text Color :</p>
+                      <input
+                        type="text"
+                        value={textColor}
+                        id="color"
+                        className="input input-sm input-bordered lg:w-24 "
+                        onChange={(e) => setTextColor(e.target.value)}
                       />
                     </div>
                   </div>
@@ -895,7 +1021,11 @@ const Data = () => {
             : { backgroundColor: `${style.backgroundColor}` }
         }
       >
-        <div className="flex flex-col gap-2 items-center justify-end ">
+        <div
+          className={`flex ${
+            frameStyle === "bottom" ? " flex-col" : " flex-col-reverse"
+          } gap-2 items-center justify-end `}
+        >
           <div ref={ref2} className={`rounded-xl `}></div>
           {frame && (
             <>
