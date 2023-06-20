@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { BsInstagram, BsYoutube, BsFacebook, BsLinkedin } from "react-icons/bs";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import React from "react";
 const Footer = () => {
   return (
     <div className="footer -mt-20 flex flex-col items-center">
@@ -11,7 +8,6 @@ const Footer = () => {
       >
         Made with ❤️ by Shivansh Soni
       </p>{" "}
-      <ToastContainer position="bottom-right" />
     </div>
   );
 };
