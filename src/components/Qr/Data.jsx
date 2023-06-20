@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaCompass, FaFacebook, FaYoutube } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BsQrCode } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { toJpeg, toPng, toSvg } from "html-to-image";
-import { saveAs } from "file-saver";
-import "react-toastify/dist/ReactToastify.css";
 const QRCodeStyling = require("qr-code-styling");
 const Data = () => {
   const [urls, setUrls] = useState("your Website URL");
