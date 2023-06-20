@@ -228,7 +228,7 @@ const Data = () => {
         <div className="w-full mt-20  h-[900px]  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col drop-shadow-2xl">
           {/* ----------------------------------------LEFT SIDE OF THE PAGE--------------------------------------- */}
           <div className=" h-full flex-[0.6] flex flex-col justify-between p-10  text-gray-400">
-            <ul className="flex flex-col  gap-5">
+            <ul className="flex flex-col  gap-10">
               <li
                 className={`
                    flex items-center gap-2 hover:cursor-pointer
@@ -374,7 +374,7 @@ const Data = () => {
                   className={`btn normal-case w-4/12 mr-4  text-sm  rounded-full  ${
                     generated
                       ? `bg-white text-black  border-solid border-black hover:bg-white btn-disabled`
-                      : `bg-accent text-black hover:bg-accent hover:scale-110  border-none`
+                      : `bg-accent text-black hover:bg-primary hover:scale-110  border-none`
                   } `}
                   onClick={handleSubmit}
                 >

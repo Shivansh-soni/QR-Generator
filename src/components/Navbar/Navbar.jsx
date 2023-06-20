@@ -1,18 +1,14 @@
 import React from "react";
-
+import Logo from "../../assets/Logo.png";
 const Navbar = () => {
   return (
     <div>
       <div className="navbar mb-5  lg:px-20 justify-center">
         <div className="flex-1">
-          <img
-            className="w-28 mt-2"
-            src="https://ekko.network/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.75338bda.png&w=256&q=75"
-            alt=""
-          />
+          <img className="w-44 absolute mt-5" src={Logo} alt="" />
         </div>
         <div className="flex-none">
-          <ul className="menu menu-horizontal px-1 text-white">
+          <ul className="menu menu-horizontal px-1 text-black">
             <li>
               <a>Login</a>
             </li>
