@@ -121,6 +121,7 @@ const Data = () => {
   useEffect(() => {
     qrCode.append(ref.current);
     qrCode2.append(ref2.current);
+    // eslint-disable-next-line
   }, [qrCode, ref]);
   useEffect(() => {
     qrCode.update({
@@ -129,6 +130,7 @@ const Data = () => {
     qrCode2.update({
       data: url,
     });
+    // eslint-disable-next-line
   }, [qrCode, url]);
   useEffect(() => {
     if (inputText.includes(`${domain}`)) {

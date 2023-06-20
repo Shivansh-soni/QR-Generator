@@ -10,11 +10,11 @@ const Navbar = () => {
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1 text-black">
             <li>
-              <a>Login</a>
+              <a href="#">Login</a>
             </li>
 
             <li>
-              <a>Create Account</a>
+              <a href="#">Create Account</a>
             </li>
           </ul>
         </div>
