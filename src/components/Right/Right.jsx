@@ -97,7 +97,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
   let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:bg-white hover:drop-shadow-2xl hover:scale-110  `;
   return (
     <div className="w-full">
-      <div className="  h-full  flex-1 border-2 flex-col  p-5 items-center rounded-3xl">
+      <div className="  h-full  flex-1  flex-col  p-5 items-center rounded-3xl">
         <div
           style={{
             color: "black",
@@ -147,7 +147,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
             {/* //*--------------------BUTTONS-------------------- */}
           </div>
           <div className="mt-3 ">
-            <p className="text-base mt-4">Download as</p>
+            <p className="text-base mt-4 text-white">Download as</p>
           </div>
           <div className="gap-3  mt-3 flex items-center justify-between">
             <button className={buttonCSS} onClick={() => handleDownload("png")}>
@@ -200,14 +200,14 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="dots"
                 className="peer "
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Style
               </div>
-              <div className="flex flex-wrap items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+              <div className="flex flex-wrap items-center gap-2 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white">
                 <button
                   className={`${radioButtonCSS} ${
                     style.dots === "square"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => setStyle({ ...style, dots: "square" })}
@@ -217,7 +217,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     style.dots === "dots"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => setStyle({ ...style, dots: "dots" })}
@@ -228,7 +228,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     style.dots === "classy"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => setStyle({ ...style, dots: "classy" })}
@@ -272,10 +272,10 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="color"
                 className="peer"
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Color
               </div>
-              <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+              <div className="flex flex-col items-start gap-4 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white">
                 <div className="flex items-center gap-4 justify-start">
                   <button
                     className="btn btn-xs btn-circle "
@@ -367,10 +367,10 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="color"
                 className="peer"
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Background Color
               </div>
-              <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+              <div className="flex flex-col items-start gap-4 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white">
                 <div className="flex items-center gap-4 justify-start">
                   <button
                     className="btn btn-xs btn-circle "
@@ -410,11 +410,11 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                     }
                   />
                 </div>
-                <div className="flex -ml-2 items-center gap-2 bg-white text-black-content ">
+                <div className="flex -ml-2 items-center gap-2 bg-secondary text-white-content ">
                   <button
                     className={`${radioButtonCSS} ${
                       style.backgroundColor === "#ffffff"
-                        ? "bg-white text-black"
+                        ? "bg-secondary text-white"
                         : "bg-accent border-none text-black"
                     }`}
                     onClick={(e) => {
@@ -426,7 +426,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                   <button
                     className={`${radioButtonCSS} ${
                       style.backgroundColor === "transparent"
-                        ? "bg-white text-black"
+                        ? "bg-secondary text-white"
                         : "bg-accent border-none text-black"
                     }`}
                     onClick={(e) => {
@@ -460,14 +460,14 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="dots"
                 className="peer "
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Frames
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white ">
                 <button
                   className={`${radioButtonCSS} ${
                     frame.activate && frame.frameStyle === "bottom"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => {
@@ -483,7 +483,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     frame.activate && frame.frameStyle === "top"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => {
@@ -495,7 +495,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     !frame.activate
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => {
@@ -549,14 +549,14 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="corner"
                 className="peer"
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Corner Square
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white ">
                 <button
                   className={`${radioButtonCSS} ${
                     style.corner === "square"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => setStyle({ ...style, corner: "square" })}
@@ -566,7 +566,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     style.corner === "dots"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) => setStyle({ ...style, corner: "dots" })}
@@ -577,7 +577,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 <button
                   className={`${radioButtonCSS} ${
                     style.corner === "extra-rounded"
-                      ? "bg-white text-black"
+                      ? "bg-secondary text-white"
                       : "bg-accent border-none text-black"
                   }`}
                   onClick={(e) =>
@@ -620,15 +620,15 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="cornerDots"
                 className="peer "
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Corner Dots
               </div>
-              <div className="flex  items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+              <div className="flex  items-start gap-4 collapse-content bg-secondary text-white-content peer-checked:bg-secondary peer-checked:text-white">
                 <div className="flex gap-2">
                   <button
                     className={`${radioButtonCSS} ${
                       style.cornerDots === "square"
-                        ? "bg-white text-black"
+                        ? "bg-secondary text-white"
                         : "bg-accent border-none text-black"
                     }`}
                     onClick={(e) =>
@@ -640,7 +640,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                   <button
                     className={`${radioButtonCSS} ${
                       style.cornerDots === "dot"
-                        ? "bg-white text-black"
+                        ? "bg-secondary text-white"
                         : "bg-accent border-none text-black"
                     }`}
                     onClick={(e) => setStyle({ ...style, cornerDots: "dot" })}
@@ -684,7 +684,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="logo"
                 className="peer"
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 Logo
               </div>
               <div className="collapse-content flex items-center gap-2 w-full">
@@ -741,7 +741,7 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
                 id="file"
                 className="peer "
               />
-              <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+              <div className="collapse-title text-white border-t-2 border-gray-300 peer-checked:bg-secondary peer-checked:text-white">
                 File Name{" "}
               </div>
               <div className="collapse-content flex items-center gap-2 w-full">

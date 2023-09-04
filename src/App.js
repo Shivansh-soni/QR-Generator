@@ -7,7 +7,7 @@ import Data from "./components/Qr/Data";
 import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   return (
-    <div className="" data-theme="light">
+    <div className="h-[1200px] overflow-hidden">
       <Navbar />
       <div className="flex justify-center mt-20 lg:justify-start ">
         <HeadingComponent heading="QRcode Generator" />
