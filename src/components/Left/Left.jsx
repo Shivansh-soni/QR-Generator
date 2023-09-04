@@ -23,19 +23,19 @@ const Left = () => {
     if (activeButton !== 1) {
       setInputText("");
     } else {
-      setInputText("ekko.network");
+      setInputText("https://tap-n.in/");
     }
   }, [activeButton]);
   return (
     <div className="w-10/12">
       <div className=" h-full mt-5  flex flex-col justify-between p-10  text-gray-400">
-        <ul className="flex flex-col  gap-10">
+        <ul className="flex flex-col  gap-10 text-accent">
           <li
             className={`
                    flex items-center gap-2 hover:cursor-pointer
                    ${
                      activeButton === 1
-                       ? `border-l-4 p-2 border-black text-black `
+                       ? `border-l-4 p-2 border-accent text-accent `
                        : `text-gray-400`
                    }
                  `}
@@ -54,7 +54,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 2
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -74,7 +74,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 3
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -94,7 +94,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 4
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -114,7 +114,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 5
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -133,7 +133,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 6
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -152,7 +152,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 7
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -171,7 +171,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 8
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -190,7 +190,7 @@ const Left = () => {
                  flex items-center gap-2 hover:cursor-pointer
                  ${
                    activeButton === 9
-                     ? `border-l-4 p-2 border-black text-black `
+                     ? `border-l-4 p-2 border-accent text-accent `
                      : `text-gray-400`
                  }
                `}
@@ -210,7 +210,7 @@ const Left = () => {
                <p className="text-xs text-center">
                  Unlimited QR Codes, analytics, and more with Popl Pro
                </p>
-               <button className="bg-accent rounded-full text-black py-3 text-sm w-32">
+               <button className="bg-accent rounded-full text-accent py-3 text-sm w-32">
                  Subscribe to Pro
                </button>
              </div> */}

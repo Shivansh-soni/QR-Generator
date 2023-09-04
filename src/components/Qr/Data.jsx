@@ -7,6 +7,18 @@ import Left from "../Left/Left";
 import { useQRStore, useStyleStore } from "../../utils/Store/QRStore";
 import axios from "axios";
 const QRCodeStyling = require("qr-code-styling");
+
+function extractUsername(url) {
+  const parts = url.split("/");
+  const lastPart = parts[parts.length - 1];
+  return lastPart;
+}
+
+// Example usage:
+const url = "https://tap-n.in/shivansh_soni";
+const username = extractUsername(url);
+console.log(username); // This will log "shivansh_soni" to the console
+
 const Data = () => {
   const {
     url,
@@ -19,19 +31,20 @@ const Data = () => {
     setActiveButton,
     inputText,
     setInputText,
+    setFileName,
+    fileName,
   } = useQRStore();
   const { style, frame } = useStyleStore();
   const { border, frameColor, frameStyle, textColor, activate } = frame;
   const [security, setSecurity] = useState("WPA");
   const [password, setPassword] = useState("");
-  const [fileName, setFileName] = useState("");
-  console.log(url);
+
   // ------------QR OG-------
   const ref2 = useRef(null);
   const qrCode2 = new QRCodeStyling({
     data: url,
-    width: 500,
-    height: 500,
+    width: 3000,
+    height: 3000,
     image: `${style.image}`,
     dotsOptions: {
       color: `${style.color}`,
@@ -81,7 +94,7 @@ const Data = () => {
           if (fileName !== "") {
             link.download = `${fileName}-QRCODE.jpeg`;
           } else {
-            link.download = `${title}-QRCODE.jpeg`;
+            link.download = `${fileName}-QRCODE.jpeg`;
           }
           link.click();
         });
@@ -168,6 +181,8 @@ const Data = () => {
       toast.warning("spacing not allowed");
       setGenerated(false);
     } else {
+      const name = extractUsername(inputText);
+      setFileName(name);
       if (activeButton !== 1 && activeButton !== 5) {
       } else if (activeButton === 1) {
         setUrl(inputText);
@@ -182,11 +197,11 @@ const Data = () => {
   return (
     <div className="h-full  ">
       <div className="w-full h-screen  lg:px-5  rounded-2xl">
-        <div className="w-full mt-20  h-[950px] relative z-50  bg-white border rounded-3xl border-gray-300  flex md:flex-row flex-col drop-shadow-2xl">
+        <div className="w-full mt-20  h-[950px] relative z-50  bg-secondary border rounded-3xl   flex md:flex-row flex-col drop-shadow-2xl">
           <Left />
           {/* ----------------------------------------CENTER OF PAGE---------------------------------------- */}
           <div className=" h-full w-[2500px]  border-x border-gray-300 px-10 pt-10 text-black ">
-            <h1 className="text-lg text-black">{heading}</h1>
+            <h1 className="text-lg text-white">{heading}</h1>
             {heading !== "file-upload" && (
               <input
                 value={inputText}
@@ -255,7 +270,7 @@ const Data = () => {
               <button
                 className={`btn normal-case w-4/12 mr-4  text-sm  rounded-full  ${
                   generated
-                    ? `bg-white text-black  border-solid border-black hover:bg-white btn-disabled`
+                    ? `bg-accent text-black  border-solid border-black hover:bg-white btn-disabled`
                     : `bg-accent text-black hover:bg-accent hover:scale-110  border-none`
                 } `}
                 onClick={handleSubmit}
@@ -278,7 +293,7 @@ const Data = () => {
         className={`
           
         ${border ? "border-[8px] rounded-xl border-black  " : ""}
-         w-[550px] flex justify-center  rounded-2xl relative -z-50 p-5 -pl-5  `}
+         w-[3000px] flex justify-center  rounded-2xl relative -z-50 p-5 -pl-5  `}
         id="main-qr"
         style={
           activate
