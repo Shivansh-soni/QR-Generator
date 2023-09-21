@@ -324,18 +324,11 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
 
                   {/* ---------PICKER---------------- */}
                   <div>
-                    <div
-                      className="input input-sm input-bordered lg:w-24 cursor-pointer"
-                      onClick={() => document.getElementById("Color").click()}
-                    >
-                      {style.color}
-                    </div>
-
                     <input
-                      type="color"
+                      type="text"
                       value={style.color}
-                      id="Color"
-                      className="input input-sm input-bordered absolute -z-50"
+                      maxLength={7}
+                      className="input input-sm input-bordered w-6/12"
                       onChange={(e) => {
                         setStyle({
                           ...style,

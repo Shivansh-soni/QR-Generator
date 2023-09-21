@@ -14,10 +14,8 @@ function extractUsername(url) {
   return lastPart;
 }
 
-// Example usage:
 const url = "https://tap-n.in/shivansh_soni";
 const username = extractUsername(url);
-console.log(username); // This will log "shivansh_soni" to the console
 
 const Data = () => {
   const {
@@ -81,6 +79,47 @@ const Data = () => {
       data: url,
     });
   }, [qrCode2, url]);
+  useEffect(() => {
+    // Get the current URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const url = urlParams.get("url");
+    if (url) {
+      setInputText(url);
+      handleSubmit();
+    }
+  }, []); // Empty dependency array to run this effect only once
+
+  useEffect(() => {
+    if (activeButton !== 6 && activeButton !== 7 && activeButton !== 8) {
+      if (inputText.includes(`${domain}`)) {
+        setUrl(inputText);
+      } else {
+        setUrl(`${domain}${inputText}`);
+      }
+    } else if (activeButton === 6) {
+      var text =
+        "WIFI:S:" +
+        inputText +
+        ";T:" +
+        security +
+        ";P:" +
+        password +
+        ";H:" +
+        "false" +
+        ";;";
+      setUrl(text);
+    } else if (activeButton === 7) {
+      var upi = `upi://pay1?pa=${inputText}&pn=${password}`;
+      setUrl(upi);
+    } else if (activeButton === 8) {
+    }
+  }, [inputText, domain, security]);
+
+  // -----------EVENT HANDLERS-------
+  const handleButtonClick = (buttonId) => {
+    setActiveButton(buttonId);
+    // setInputText("");
+  };
   const handleDownload = async (type) => {
     // qrCode2.getRawData("jpeg").then((blob) => saveAs(blob, "hello world.jpeg"));
 
@@ -140,37 +179,6 @@ const Data = () => {
         });
       }
     }
-  };
-  useEffect(() => {
-    if (activeButton !== 6 && activeButton !== 7 && activeButton !== 8) {
-      if (inputText.includes(`${domain}`)) {
-        setUrl(inputText);
-      } else {
-        setUrl(`${domain}${inputText}`);
-      }
-    } else if (activeButton === 6) {
-      var text =
-        "WIFI:S:" +
-        inputText +
-        ";T:" +
-        security +
-        ";P:" +
-        password +
-        ";H:" +
-        "false" +
-        ";;";
-      setUrl(text);
-    } else if (activeButton === 7) {
-      var upi = `upi://pay1?pa=${inputText}&pn=${password}`;
-      setUrl(upi);
-    } else if (activeButton === 8) {
-    }
-  }, [inputText, domain, security]);
-
-  // -----------EVENT HANDLERS-------
-  const handleButtonClick = (buttonId) => {
-    setActiveButton(buttonId);
-    // setInputText("");
   };
   const handleInputChange = (event) => {
     setInputText(event.target.value);
