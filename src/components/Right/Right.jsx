@@ -27,10 +27,10 @@ function Frames(props) {
         id="dots"
         className="peer "
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300  peer-checked:text-black-content">
         Frames
       </div>
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content  text-black-content peer-checked:text-black-content ">
         <button
           className={`${props.radioButtonCSS} ${
             props.frame.activate && props.frame.frameStyle === "bottom"
@@ -128,10 +128,10 @@ function QRColor(props) {
         id="color"
         className="peer"
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300  peer-checked:text-black-content">
         Color
       </div>
-      <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+      <div className="flex flex-col items-start gap-4 collapse-content   text-black-content peer-checked:  peer-checked:text-black-content">
         <div className="flex items-center gap-4 justify-start">
           <button
             className="btn btn-xs btn-circle "
@@ -180,18 +180,12 @@ function QRColor(props) {
 
           {/* ---------PICKER---------------- */}
           <div>
-            <div
-              className="input input-sm input-bordered lg:w-24 cursor-pointer"
-              onClick={() => document.getElementById("Color").click()}
-            >
-              {props.style.color}
-            </div>
-
             <input
-              type="color"
+              type="text"
               value={props.style.color}
               id="Color"
-              className="input input-sm input-bordered absolute -z-50"
+              maxLength={7}
+              className="input input-sm input-bordered w-28"
               onChange={(e) => {
                 props.setStyle({
                   ...props.style,
@@ -227,10 +221,10 @@ function BgColor(props) {
         id="color"
         className="peer"
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:  peer-checked:text-black-content">
         Background Color
       </div>
-      <div className="flex flex-col items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+      <div className="flex flex-col items-start gap-4 collapse-content   text-black-content peer-checked:  peer-checked:text-black-content">
         <div className="flex items-center gap-4 justify-start">
           <button
             className="btn btn-xs btn-circle "
@@ -270,7 +264,7 @@ function BgColor(props) {
             }
           />
         </div>
-        <div className="flex -ml-2 items-center gap-2 bg-white text-black-content ">
+        <div className="flex -ml-2 items-center gap-2   text-black-content ">
           <button
             className={`${props.radioButtonCSS} ${
               props.style.backgroundColor === "#ffffff"
@@ -324,10 +318,10 @@ function CornerSquare(props) {
         id="corner"
         className="peer"
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:  peer-checked:text-black-content">
         Corner Square
       </div>
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content ">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-4 collapse-content   text-black-content peer-checked:  peer-checked:text-black-content ">
         <button
           className={`${props.radioButtonCSS} ${
             props.style.corner === "square"
@@ -398,10 +392,10 @@ function CornerDots(props) {
         id="cornerDots"
         className="peer "
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:  peer-checked:text-black-content">
         Corner Dots
       </div>
-      <div className="flex  items-start gap-4 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+      <div className="flex  items-start gap-4 collapse-content   text-black-content peer-checked:  peer-checked:text-black-content">
         <div className="flex gap-2">
           <button
             className={`${props.radioButtonCSS} ${
@@ -465,7 +459,7 @@ function Logo(props) {
         id="logo"
         className="peer"
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:  peer-checked:text-black-content">
         Logo
       </div>
       <div className="collapse-content flex items-center gap-2 w-full">
@@ -524,10 +518,10 @@ function QRStyle(props) {
         id="dots"
         className="peer "
       />
-      <div className="collapse-title text-black-content border-t-2 border-gray-300 peer-checked:bg-white peer-checked:text-black-content">
+      <div className="collapse-title text-black-content border-t-2 border-gray-300  peer-checked:text-black-content">
         Style
       </div>
-      <div className="flex flex-wrap items-center gap-2 collapse-content bg-white text-black-content peer-checked:bg-white peer-checked:text-black-content">
+      <div className="flex flex-wrap items-center gap-2 collapse-content   text-black-content peer-checked:  peer-checked:text-black-content">
         <button
           className={`${props.radioButtonCSS} ${
             props.style.dots === "square"
@@ -668,11 +662,11 @@ const Right = ({ handleDownload, setFileName, fileName }) => {
     generated ? `bg-accent` : `btn-disabled`
   } text-black  `;
 
-  let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:bg-white hover:drop-shadow-2xl hover:scale-110  `;
+  let radioButtonCSS = `  btn btn-sm rounded-full text-xs  hover:text-black hover:  hover:drop-shadow-2xl hover:scale-110  `;
   return (
     <div className="w-full">
       <div
-        className="  h-full  flex-1 border-2 flex-col  p-5 items-center rounded-3xl"
+        className="  h-full  flex-1  flex-col  p-5 items-center rounded-3xl"
         style={{ color: "white" }}
       >
         <div
